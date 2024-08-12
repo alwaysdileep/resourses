@@ -1,16 +1,41 @@
 trigger:
 - main
 
-pool:
-  name: build-env
+stages:
+# Stage 1: Build
+- stage: Build
+  displayName: "Build Stage"
+  jobs:
+  - job: BuildJob
+    displayName: "Build Job"
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: echo "Building the project..."
+      displayName: "Build Step"
 
-variables:
-- group: shared-variables
+# Stage 2: Test
+- stage: Test
+  displayName: "Test Stage"
+  dependsOn: Build
+  jobs:
+  - job: TestJob
+    displayName: "Test Job"
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: echo "Running tests..."
+      displayName: "Test Step"
 
-jobs:
-- job: UserDefinedVariables
-  steps:
-  - script: |
-      echo "NGINX version: $(nginx_version)"
-      echo "Deploy environment: $(deploy_env)"
-    displayName: 'Utilizing Variables from Variable Group'
+# Stage 3: Deploy
+- stage: Deploy
+  displayName: "Deploy Stage"
+  dependsOn: Test
+  jobs:
+  - job: DeployJob
+    displayName: "Deploy Job"
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: echo "Deploying the application..."
+      displayName: "Deploy Step"
