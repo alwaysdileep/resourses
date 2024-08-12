@@ -1,37 +1,18 @@
-# Docker
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
-- azurepipelines-docker-k8s
+- main
 
-resources:
-- repo: self
+pool:
+  name: default
+
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'fb9c9f4e-f8f5-457b-9de3-feaa3873101d'
-  imageRepository: 'perseverance'
-  containerRegistry: 'persevcareers.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
+  nginx_version: '2.4.8'
+  deploy: 'dev'
 
-
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      name: 'build-env'
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+jobs:
+- job: UserDefinedVariables
+  steps:
+  - script: |
+      echo "nginx version : $(nginx_version)"
+      echo "deploying to : $(deploy)"
+    displayName: 'utilizing variables'
