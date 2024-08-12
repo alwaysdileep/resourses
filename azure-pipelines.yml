@@ -1,6 +1,8 @@
 trigger:
 - main
 
+pool:
+  name: build-env
 stages:
 # Stage 1: Build
 - stage: Build
