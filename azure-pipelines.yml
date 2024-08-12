@@ -4,13 +4,13 @@ trigger:
 pool:
   name: build-env
 
+variables:
+- group: shared-variables
+
 jobs:
-- job: PredefinedVariables
+- job: UserDefinedVariables
   steps:
   - script: |
-      echo "Build Source Branch: $(Build.SourceBranch)"
-      echo "Build Source Version: $(Build.SourceVersion)"
-      echo "Build Repository Name: $(Build.Repository.Name)"
-      echo "Agent Machine Name: $(Agent.MachineName)"
-      echo "Agent OS: $(Agent.OS)"
-    displayName: 'Display Predefined Variables'
+      echo "NGINX version: $(nginx_version)"
+      echo "Deploy environment: $(deploy_env)"
+    displayName: 'Utilizing Variables from Variable Group'
