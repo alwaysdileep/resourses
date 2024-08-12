@@ -3,35 +3,14 @@ trigger:
 
 pool:
   name: build-env
-stages:
-# Stage 1: Build
-- stage: Build
-  displayName: "Build Stage"
-  jobs:
-  - job: BuildJob
-    displayName: "Build Job"
-    steps:
-    - script: echo "Building the project..."
-      displayName: "Build Step"
 
-# Stage 2: Test
-- stage: Test
-  displayName: "Test Stage"
-  dependsOn: Build
-  jobs:
-  - job: TestJob
-    displayName: "Test Job"
-    steps:
-    - script: echo "Running tests..."
-      displayName: "Test Step"
+variables:
+- group: shared-variables
 
-# Stage 3: Deploy
-- stage: Deploy
-  displayName: "Deploy Stage"
-  dependsOn: Test
-  jobs:
-  - job: DeployJob
-    displayName: "Deploy Job"
-    steps:
-    - script: echo "Deploying the application..."
-      displayName: "Deploy Step"
+jobs:
+- job: UserDefinedVariables
+  steps:
+  - script: |
+      echo "NGINX version: $(nginx_version)"
+      echo "Deploy environment: $(deploy_env)"
+    displayName: 'Utilizing Variables from Variable Group'
