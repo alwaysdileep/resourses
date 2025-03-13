@@ -16,7 +16,7 @@
     </dependency>
   </dependencies>
   <build>
-     <finalName>perseverance</finalName>
+     <finalName>alwaysdileep</finalName>
         <plugins>
             <!-- Configure maven-compiler-plugin -->
             <plugin>
