@@ -1,48 +1,33 @@
-<!DOCTYPE html>   
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perseverance</title>
-    <!-- Importing a nice modern font (Google Fonts) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
-    <style>
+ <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #121212; /* Dark background */
+            background-color: #D5D6EA;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: #ffffff; /* White text for better readability */
+            font-family: 'Frank Ruhl Libre', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+              color: #FFFF00;    /*  yellow color */
+
+              color: #0000FF;     /* Blue color */
+
+              color: #FFA500;     /* Orange color */
         }
 
         h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 5em;
-            letter-spacing: 5px;
+            font-size: 4em;
+            letter-spacing: 4px;
             text-align: center;
             text-transform: uppercase;
-            font-weight: 700;
-            margin: 0;
-            color: #FFD700; /* Golden yellow */
-        }
-
-        h2 {
-            font-family: 'Roboto', sans-serif;
-            font-size: 2.5em;
-            letter-spacing: 2px;
-            text-align: center;
-            font-weight: 500;
-            color: #00BFFF; /* Deep Sky Blue */
-            margin-top: 10px;
+            font-weight: 700; /* Bold font weight */     /* e50914 */
+            margin: 0; /* Remove default margin */
         }
     </style>
 </head>
 <body>
-    <h1>Shiva Sai's</h1>
-    <h2>PERSEVERANCE SOFTWARE INSTITUTE</h2>
-</body>     
+    <h1>...|| JAI SHREE RAM ||...</h1>
+#<span>🧡</span> <!-- Orange heart -->
+
+</body>
 </html>
