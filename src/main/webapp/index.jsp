@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h1>...|| JAI SHREE RAM !! ||...</h1>
+    <h1>...|| JAI SHREE RAM ||...</h1>
 #<span>🧡</span> <!-- Orange heart -->
 
 </body>
