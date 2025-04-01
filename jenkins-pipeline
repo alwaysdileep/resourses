@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    environment {
+        // This is the name of the SonarQube server configured in Jenkins
+        SONARQUBE_SERVER = 'SonarQube' // Use the name configured in Jenkins (Configure SonarQube under Manage Jenkins)
+        SONARQUBE_SCANNER = tool name: 'SonarQube Scanner', type: 'Tool'  // This references SonarQube scanner from Jenkins Global Tool Configuration
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the source control repository (e.g., Git)
+                checkout scm
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Run SonarQube analysis using Maven (for example), using SonarQube scanner in the environment
+                    withSonarQubeEnv(SONARQUBE_SERVER) {
+                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=my_project_key -Dsonar.host.url=http://localhost:9000'
+                    }
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    // Wait for the SonarQube quality gate to finish and check if it passed
+                    timeout(time: 1, unit: 'HOURS') {
+                        // This will wait for the SonarQube quality gate result. If it fails, the pipeline will fail.
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Run your build steps here, for example, Maven build
+                sh 'mvn clean install' // This is an example for Maven projects
+            }
+        }
+        
+        // Add additional stages as needed (e.g., deploy, test)
+    }
+
+    post {
+        always {
+            // Clean up the workspace after the pipeline runs (e.g., remove temporary files)
+            cleanWs()
+        }
+
+        success {
+            // Actions to run if the pipeline is successful
+            echo 'Build and SonarQube analysis completed successfully!'
+        }
+
+        failure {
+            // Actions to run if the pipeline fails
+            echo 'Build or SonarQube analysis failed. Please review the logs.'
+        }
+    }
+}
