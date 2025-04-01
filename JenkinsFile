@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    environment {
+        // Set SonarQube server name as configured in Jenkins
+        SONARQUBE_SERVER = 'SonarQube'  // Replace with the actual name configured in Jenkins
+        SONARQUBE_SCANNER = tool name: 'SonarQube Scanner', type: 'Tool'  // Referencing SonarQube scanner from Jenkins tool configuration
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the Git repository
+                checkout scm
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Run SonarQube analysis using Maven
+                    withSonarQubeEnv(SONARQUBE_SERVER) {
+                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=resourses -Dsonar.host.url=http://localhost:9000'
+                    }
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    // Wait for SonarQube analysis to finish and check if the Quality Gate passes
+                    timeout(time: 1, unit: 'HOURS') {
+                        // This will wait for the SonarQube Quality Gate result
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Run the build step (Maven in this case)
+                sh 'mvn clean install'
+            }
+        }
+
+        // Additional stages for testing, deployment, etc. can be added here
+    }
+
+    post {
+        always {
+            // Clean up the workspace after the build is completed
+            cleanWs()
+        }
+
+        success {
+            // Actions to run if the pipeline is successful
+            echo 'Build and SonarQube analysis completed successfully!'
+        }
+
+        failure {
+            // Actions to run if the pipeline fails
+            echo 'Build or SonarQube analysis failed. Please check the logs.'
+        }
+    }
+}
